@@ -29,7 +29,7 @@ export default function TopStocksAI() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/top-stocks?type=${selectedType}`,
+        `${import.meta.env.VITE_API_URL}/top-stocks?type=${selectedType}`,
       );
       const json = await res.json();
       setData(json);

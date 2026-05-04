@@ -67,7 +67,7 @@ function App() {
 
     setLoading(true);
 
-    const res = await fetch("http://localhost:5000/chat-stock", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/chat-stock`, {
       method: "POST",
       body: JSON.stringify({ message: symbol }),
       headers: { "Content-Type": "application/json" },

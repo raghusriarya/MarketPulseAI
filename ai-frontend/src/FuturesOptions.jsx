@@ -11,7 +11,7 @@ function FuturesOptions() {
 
   // 🔥 Fetch indices
   useEffect(() => {
-    fetch("http://localhost:5000/fo/indices")
+    fetch(`${import.meta.env.VITE_API_URL}/fo/indices`)
       .then((res) => res.json())
       .then(setIndices);
   }, []);
@@ -19,7 +19,7 @@ function FuturesOptions() {
   // 🔥 Fetch data
   const fetchData = async (symbol = selected) => {
     const res = await fetch(
-      `http://localhost:5000/fo/option-chain?symbol=${symbol}`,
+      `${import.meta.env.VITE_API_URL}/fo/option-chain?symbol=${symbol}`,
     );
     const json = await res.json();
 
@@ -36,7 +36,7 @@ function FuturesOptions() {
     setAnalyzing(true);
 
     try {
-      const res = await fetch("http://localhost:5000/fo/analyze", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/fo/analyze`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

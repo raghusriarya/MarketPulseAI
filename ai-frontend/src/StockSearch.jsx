@@ -21,7 +21,9 @@ function StockSearch({ onSelect }) {
 
       setLoading(true);
 
-      const res = await fetch(`http://localhost:5000/search-stock?q=${value}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/search-stock?q=${value}`,
+      );
       const data = await res.json();
 
       setOptions(data);
