@@ -68,7 +68,46 @@ const fetchSafe = async (url, retries = 2) => {
     throw err;
   }
 };
+// ===============================
+// 🔍 SEARCH STOCK API
+// ===============================
+app.get("/search-stock", (req, res) => {
+  try {
+    const { q } = req.query;
 
+    if (!q) return res.json([]);
+
+    const query = q.toLowerCase().trim();
+
+    const results = stockList
+      .map((stock) => {
+        const symbol = stock.symbol.toLowerCase();
+        const name = stock.name.toLowerCase();
+
+        let score = 0;
+
+        if (symbol.startsWith(query)) score += 3;
+        if (symbol.includes(query)) score += 2;
+
+        if (name.startsWith(query)) score += 3;
+        if (name.includes(query)) score += 1;
+
+        return { stock, score };
+      })
+      .filter((item) => item.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 10)
+      .map(({ stock }) => ({
+        label: `${stock.symbol} - ${stock.name}`,
+        value: `${stock.symbol}.NS`,
+      }));
+
+    res.json(results);
+  } catch (err) {
+    console.error(err);
+    res.json({ error: "Search failed" });
+  }
+});
 // ===============================
 // 🔥 LOAD CSV
 // ===============================
