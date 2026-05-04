@@ -78,7 +78,7 @@ const loadStocks = () =>
   new Promise((resolve, reject) => {
     const results = [];
 
-    fs.createReadStream("./data/EQUITY_L.csv")
+    fs.createReadStream(new URL("./data/EQUITY_L.csv", import.meta.url))
       .pipe(csv())
       .on("data", (d) =>
         results.push({
